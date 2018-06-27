@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://alexzam1:alexzam1@ds119171.mlab.com:19171/devfproyecto')
-var calificacion = require('./backend/CalificacionSchema.js')
+var calificacion = require('./CalificacionSchema.js')
 
 const Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId
@@ -24,5 +24,5 @@ const peliculasSchema = new Schema({
     }]
 })
 
-var peliculas = mongoose.model('Peliculas', peliculasSchema)
-module.exports = peliculas
+var pelicula = mongoose.model('Peliculas', peliculasSchema)
+module.exports = pelicula
