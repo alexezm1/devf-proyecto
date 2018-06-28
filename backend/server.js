@@ -86,6 +86,24 @@ app.get('/api/usuario', (req,res)=>{
         })
 })
 
+//----------------------CRUD CALIFICACION --------------------
+app.post('/api/calificacion/create', (req,res)=>{
+    const{estrellas,comentarios,fecha} = req.body
+
+    let newCalificacion = calificacion({
+        estrellas,
+        comentarios,
+        fecha
+    })
+
+    newCalificacion.save((err,calif)=>{
+        if(err) throw err
+        res.status(201).send(calif)
+    })
+})
+
+
+
 
 
 app.listen(3000, ()=>{
