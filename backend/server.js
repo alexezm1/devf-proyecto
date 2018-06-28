@@ -37,7 +37,7 @@ app.post('/api/peliculas/create', (req,res)=>{
 
     newPelicula.save((err,peli)=>{
         if(err) throw err;
-        res.statusCode(201).send(peli)
+        res.status(201).send(peli)
     })
 })
 
@@ -54,14 +54,39 @@ app.get('/api/peliculas', (req,res)=>{
 app.get('/api/peliculas/:uid', (req,res)=>{
     const {uid} = req.params
 
-    pelicula.findById(uid).exec()
-        .then(peli =>{
-            res.send(peli)
+    pelicula.findById(uid, {}, (err,pelis)=>{
+
+    })
+       
+})
+//------------------------CRUD USUARIO---------------------
+app.post('/api/usuario/create', (req, res)=>{
+    const{nombre,apellido,email,fecha_nacimiento} = req.body
+
+    let newUser = usuario({
+        nombre,
+        apellido,
+        email,
+        fecha_nacimiento
+    })
+
+    newUser.save((err,user)=>{
+        if(err) throw err
+        res.status(201).send(user)
+    })
+})
+
+app.get('/api/usuario', (req,res)=>{
+    usuario.find().exec()
+        .then(user =>{
+            res.send(user)
         })
         .catch(err =>{
-            res.statusCode(404).send(err)
+            res.status(404).send(err)
         })
 })
+
+
 
 app.listen(3000, ()=>{
     console.log('Server on 3000')
