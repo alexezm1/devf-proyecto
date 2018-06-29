@@ -136,10 +136,10 @@ app.get('/api/calificacion/:uid', (req,res)=>{
 
 
 
-app.listen(3000, ()=>{
-    console.log('Server on 3000')
-})
+// app.listen(3000, ()=>{
+//     console.log('Server on 3000')
+// })
 
-// app.listen(PORT,()=>{
-//     console.log('server on: ' + PORT)
-// });
+app.listen(PORT,()=>{
+    console.log('server on: ' + PORT)
+});
