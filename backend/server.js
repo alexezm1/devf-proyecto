@@ -19,7 +19,7 @@ app.get('/', (req,res)=>{
 
 //---------------------CRUD PELICULA-----------------------
 app.post('/api/peliculas/create', (req,res)=>{
-    const {nombre,duracion,clasificacion,genero,director,sinopsis,premios,año,actores,portada,trailer} = req.body
+    const {nombre,duracion,clasificacion,genero,director,sinopsis,premios,año,actores,portada,trailer,calificacion} = req.body
 
     let newPelicula = pelicula({
         nombre,
@@ -32,7 +32,8 @@ app.post('/api/peliculas/create', (req,res)=>{
         año,
         actores,
         portada,
-        trailer
+        trailer,
+        calificacion
     })
 
     newPelicula.save((err,peli)=>{
@@ -54,8 +55,11 @@ app.get('/api/peliculas', (req,res)=>{
 app.get('/api/peliculas/:uid', (req,res)=>{
     const {uid} = req.params
 
-    pelicula.findById(uid, {}, (err,pelis)=>{
-
+    pelicula.findById(uid, {}, (err,pelicula)=>{
+        calificacion.populate(pelicula, {path: "calificacion"}, (err, pelicula)=>{
+            if(err) throw err
+            res.status(200).send(pelicula)
+        })
     })
        
 })
@@ -88,9 +92,10 @@ app.get('/api/usuario', (req,res)=>{
 
 //----------------------CRUD CALIFICACION --------------------
 app.post('/api/calificacion/create', (req,res)=>{
-    const{estrellas,comentarios,fecha} = req.body
+    const{nombreCalificador,estrellas,comentarios,fecha} = req.body
 
     let newCalificacion = calificacion({
+        nombreCalificador,
         estrellas,
         comentarios,
         fecha
@@ -102,7 +107,32 @@ app.post('/api/calificacion/create', (req,res)=>{
     })
 })
 
+app.get('/api/calificacion', (req,res)=>{
+    calificacion.find().exec()
+        .then(calificacion => {
+            res.send(calificacion)
+        })
+        .catch(err =>{
+            res.status(404).send(err)
+        })
+})
 
+app.get('/api/calificacion/:uid', (req,res)=>{
+    const{uid} = req.params
+
+    calificacion.findById(uid, {}, (err,calificacion)=>{
+        usuario.populate(calificacion, {path: 'nombreCalificador'}, (err,calificacion)=>{
+            if(err) throw err
+            res.status(200).send(calificacion)
+        })
+    })
+        
+            
+        
+        
+
+})
+    
 
 
 
