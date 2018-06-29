@@ -41,6 +41,17 @@ app.post('/api/peliculas/create', (req,res)=>{
         res.status(201).send(peli)
     })
 })
+app.put('/api/peliculas/:uid', (req,res)=>{
+    const{uid} = req.params
+
+    pelicula.findByIdAndUpdate(uid, {$set: req.body}, {new: true}).exec()
+        .then(pelicula =>{
+            res.satuts(200).send(pelicula)
+        })
+        .catch(err =>{
+            res.status(400).send(err)
+        })
+})
 
 app.get('/api/peliculas', (req,res)=>{
     pelicula.find().exec()
